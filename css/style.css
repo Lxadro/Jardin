@@ -415,3 +415,120 @@ body {
   .polaroid--derecha-inferior { top: 46%; }
 }
 
+.gatekeeper {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(255, 242, 231, .96), rgba(238, 213, 211, .96) 55%, rgba(219, 191, 198, .98)),
+    #ead8d1;
+  color: #59414c;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .55s ease, visibility 0s linear .55s;
+}
+
+.gatekeeper.gatekeeper--salir {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gatekeeper-tarjeta {
+  display: flex;
+  width: min(100%, 410px);
+  flex-direction: column;
+  align-items: stretch;
+  padding: clamp(26px, 6vw, 42px);
+  border: 1px solid rgba(255, 255, 255, .82);
+  border-radius: 24px;
+  background: rgba(255, 250, 246, .78);
+  box-shadow: 0 22px 70px rgba(101, 57, 70, .2), inset 0 1px rgba(255, 255, 255, .8);
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.gatekeeper-flor {
+  margin-bottom: 8px;
+  color: #bd718a;
+  font-size: 34px;
+  line-height: 1;
+  text-shadow: 0 3px 15px rgba(205, 118, 150, .25);
+}
+
+.gatekeeper-tarjeta h1 {
+  margin: 0 0 10px;
+  color: #633e50;
+  font: 500 clamp(25px, 6vw, 33px)/1.2 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.gatekeeper-tarjeta > p:not(.gatekeeper-error) {
+  margin: 0 0 23px;
+  color: #765e68;
+  font: 16px/1.5 Georgia, "Times New Roman", serif;
+}
+
+.gatekeeper-tarjeta label {
+  margin-bottom: 7px;
+  color: #79596a;
+  font: 13px/1.4 "Courier New", monospace;
+  text-align: left;
+}
+
+.gatekeeper-tarjeta input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 13px;
+  border: 1px solid rgba(161, 111, 130, .46);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 255, 255, .86);
+  color: #493540;
+  font: 16px/1.4 "Courier New", monospace;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.gatekeeper-tarjeta input:focus {
+  border-color: #bd718a;
+  box-shadow: 0 0 0 3px rgba(189, 113, 138, .16);
+}
+
+.gatekeeper-boton {
+  min-height: 46px;
+  margin-top: 14px;
+  border: 1px solid #b66b84;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c77e94, #a95975);
+  box-shadow: 0 6px 16px rgba(154, 78, 105, .22);
+  color: #fffaf9;
+  cursor: pointer;
+  font: 600 15px/1 "Courier New", monospace;
+  transition: filter .2s ease, transform .2s ease;
+}
+
+.gatekeeper-boton:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.gatekeeper-boton:focus-visible { outline: 3px solid rgba(161, 79, 108, .35); outline-offset: 3px; }
+
+.gatekeeper-error {
+  margin: 13px 0 0;
+  color: #9d3e5b;
+  font: 14px/1.4 Georgia, "Times New Roman", serif;
+}
+
+.gatekeeper-error[hidden] { display: none; }
+.gatekeeper-tarjeta--error { animation: gatekeeper-vibrar .32s ease; }
+
+@keyframes gatekeeper-vibrar {
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gatekeeper, .gatekeeper-tarjeta input, .gatekeeper-boton { transition-duration: .01ms; }
+  .gatekeeper-tarjeta--error { animation: none; }
+}
+

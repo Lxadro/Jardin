@@ -1,5 +1,12 @@
 ﻿/* Motor 3D ASCII propio: mallas paramétricas, perspectiva, z-buffer y luz por normales. */
 
+// Personaliza esta clave con la fecha o palabra secreta que quieras usar.
+const CLAVE_SECRETA = "06/09/2026";
+const gatekeeper = document.getElementById("gatekeeper");
+const formClave = document.getElementById("form-clave");
+const inputClave = document.getElementById("clave-secreta");
+const errorClave = document.getElementById("error-clave");
+const contenidoRegalo = document.getElementById("contenido-regalo");
 const RAMPA = " .,:;-=+*x#%&@MW";
 const PI2 = Math.PI * 2;
 const DURACION = 10;
@@ -647,6 +654,43 @@ window.addEventListener("resize", resize);
 botonFlorecer.addEventListener("click", () => { iniciarSecuenciaMusical(); florecer(); });
 botonMusica.addEventListener("click", alternarMusica);
 
+formClave.addEventListener("submit", (evento) => {
+  evento.preventDefault();
+  if (inputClave.value.trim().toLowerCase() !== CLAVE_SECRETA.toLowerCase()) {
+    errorClave.textContent = "Ups, esa no es la clave secreta 🙈";
+    errorClave.hidden = false;
+    inputClave.setAttribute("aria-invalid", "true");
+    formClave.classList.remove("gatekeeper-tarjeta--error");
+    void formClave.offsetWidth;
+    formClave.classList.add("gatekeeper-tarjeta--error");
+    inputClave.select();
+    return;
+  }
+
+  errorClave.hidden = true;
+  inputClave.removeAttribute("aria-invalid");
+  gatekeeper.classList.add("gatekeeper--salir");
+  let finalizado = false;
+  const finalizarDesbloqueo = () => {
+    if (finalizado) return;
+    finalizado = true;
+    contenidoRegalo.inert = false;
+    gatekeeper.hidden = true;
+    botonFlorecer.focus({ preventScroll: true });
+  };
+  gatekeeper.addEventListener("transitionend", (eventoFin) => {
+    if (eventoFin.target === gatekeeper && eventoFin.propertyName === "opacity") finalizarDesbloqueo();
+  });
+  setTimeout(finalizarDesbloqueo, 700);
+});
+
+inputClave.addEventListener("input", () => {
+  errorClave.hidden = true;
+  inputClave.removeAttribute("aria-invalid");
+  formClave.classList.remove("gatekeeper-tarjeta--error");
+});
+
 prepararLienzo();
 actualizarMusica();
+requestAnimationFrame(() => inputClave.focus());
 
