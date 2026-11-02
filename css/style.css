@@ -1,0 +1,417 @@
+/* ==========================================================
+   📝 PALETA DE COLORES: cámbialos aquí y se actualiza todo
+   ========================================================== */
+:root {
+  --rosa-suave: #ffd6e0;     /* fondo principal */
+  --rosa-intenso: #e8577a;   /* botones y acentos */
+  --lila: #c8b6ff;           /* detalles secundarios */
+  --dorado: #f4c95d;         /* brillos y firma */
+  --texto: #5a3a4a;          /* color del texto */
+  --blanco-crema: #fffaf5;   /* fondo de la carta */
+  --sombra: rgba(232, 87, 122, 0.25);
+}
+
+/* ==========================================================
+   BASE: reglas generales para toda la web
+   ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Quicksand", sans-serif;
+  color: var(--texto);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==========================================================
+   PÁGINA DE BIENVENIDA (index.html)
+   ========================================================== */
+.page-welcome {
+  background: linear-gradient(160deg, var(--rosa-suave), var(--lila));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+}
+
+/* Corazones flotantes de fondo */
+.hearts-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Cada corazón (js/main.js los crea con la clase .heart) */
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 1.4rem;
+  opacity: 0.7;
+  animation: subir-corazon linear forwards;
+}
+
+@keyframes subir-corazon {
+  to {
+    transform: translateY(-110vh) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* Contenedor central */
+.letter-container {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+  animation: aparecer 1.2s ease-out both;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📝 Título de portada */
+.title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: var(--rosa-intenso);
+  margin-bottom: 24px;
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.6);
+}
+
+/* 📝 Tarjeta de la carta */
+.letter-card {
+  background: var(--blanco-crema);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 12px 40px var(--sombra);
+  text-align: left;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.letter-card p {
+  margin-bottom: 16px;
+}
+
+.letter-card .signature {
+  text-align: right;
+  margin-top: 24px;
+  font-style: italic;
+}
+
+.letter-card .signature span {
+  color: var(--rosa-intenso);
+  font-weight: bold;
+}
+
+/* 📝 Botón de inicio */
+.btn-open {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 14px 36px;
+  background: var(--rosa-intenso);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 18px var(--sombra);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-open:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 24px var(--sombra);
+}
+
+.btn-open:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================
+   PÁGINA DEL RAMO (flores.html) - se completa más adelante
+   ========================================================== */
+.page-flores {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--rosa-suave), #fff);
+}
+
+/* ==========================================================
+   RESPONSIVE: ajustes para celulares
+   ========================================================== */
+@media (max-width: 480px) {
+  .letter-card {
+    padding: 24px 20px;
+    font-size: 1rem;
+  }
+}
+
+/* ==========================================================
+   ACCESIBILIDAD: respeta a quien prefiere menos movimiento
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.saliendo .letter-container {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* ==========================================================
+   PÁGINA DEL RAMO EN ASCII (flores.html)
+   ========================================================== */
+.page-ascii {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 480px;
+  overflow: hidden;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 68%, rgba(115, 58, 76, .42) 0, transparent 56%),
+    radial-gradient(circle at 17% 18%, rgba(173, 119, 91, .17) 0, transparent 34%),
+    radial-gradient(circle at 83% 22%, rgba(153, 84, 119, .17) 0, transparent 36%),
+    linear-gradient(155deg, #2a1d24 0%, #1c1720 48%, #100e16 100%);
+  color: #d4f0d7;
+  font-family: "Courier New", Courier, monospace;
+  isolation: isolate;
+}
+
+/* Líneas de pantalla CRT, como en la imagen de referencia */
+.page-ascii::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 8;
+}
+
+.ascii-ramo {
+  position: fixed;
+  z-index: 3;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
+  transform-origin: center;
+  pointer-events: none;
+  cursor: default;
+  touch-action: auto;
+  outline: none;
+}
+
+.polaroids {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.polaroid {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: clamp(132px, 11.8vw, 184px);
+  aspect-ratio: .78;
+  padding: 9px 9px 10px;
+  margin: 0;
+  opacity: 0;
+  transform: rotate(var(--inclinacion)) scale(.9);
+  transition: opacity 2.55s ease, transform 2.55s cubic-bezier(.2, .72, .25, 1);
+  color: #49383c;
+  background: linear-gradient(148deg, #fff 0%, #fffdfa 62%, #f1e9e5 100%);
+  border: 1px solid rgba(255, 255, 255, .97);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .48), 0 5px 10px rgba(0, 0, 0, .3), 0 0 1px 1px rgba(255, 235, 231, .42);
+  border-radius: 1px 0 2px 1px;
+  pointer-events: none;
+}
+
+.polaroid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: repeating-linear-gradient(0deg, rgba(119, 82, 78, .04) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(255, 255, 255, .24) 0 1px, transparent 1px 5px);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.polaroid--izquierda-superior { --inclinacion: -6deg; top: 2%; left: clamp(20px, calc(50vw - 46vh - 204px), 270px); }
+.polaroid--izquierda-inferior { --inclinacion: 4deg; top: 55%; left: clamp(20px, calc(50vw - 46vh - 300px), 220px); }
+.polaroid--derecha-superior { --inclinacion: 5deg; top: 2%; right: clamp(20px, calc(50vw - 46vh - 204px), 270px); }
+.polaroid--derecha-inferior { --inclinacion: -5deg; top: 55%; right: clamp(20px, calc(50vw - 46vh - 300px), 220px); }
+.polaroid--izquierda-superior { width: 148px; aspect-ratio: .6; }
+
+.polaroid.is-visible {
+  opacity: 1;
+  transform: rotate(var(--inclinacion)) scale(1);
+}
+
+.polaroid--izquierda-superior { transition-delay: 0s; }
+.polaroid--derecha-superior { transition-delay: .12s; }
+.polaroid--izquierda-inferior { transition-delay: .24s; }
+.polaroid--derecha-inferior { transition-delay: .36s; }
+
+.floracion-reiniciando .polaroid,
+.floracion-reiniciando .ascii-dedicatoria { transition: none !important; }
+
+.polaroid-foto {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  place-items: center;
+  background: radial-gradient(ellipse at 48% 42%, #211d21 0%, #151318 64%, #100f13 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), inset 0 3px 10px rgba(0, 0, 0, .25);
+}
+
+.polaroid-foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.polaroid-foto .polaroid-imagen-uno {
+  object-position: center;
+  filter: brightness(1.08) saturate(1.04);
+}
+
+.ascii-dedicatoria {
+  position: fixed;
+  z-index: 7;
+  right: 12px;
+  bottom: clamp(130px, 15vh, 172px);
+  left: 12px;
+  margin: 0;
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity 2.55s ease .4s, transform 2.55s cubic-bezier(.2, .72, .25, 1) .4s;
+  color: #ffeaf0;
+  font: 500 clamp(28px, 3.8vw, 48px)/1.15 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  letter-spacing: .025em;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(255, 166, 193, .5), 0 2px 5px rgba(0, 0, 0, .72);
+}
+
+.ascii-dedicatoria.is-visible { opacity: 1; transform: scale(1); }
+
+.ascii-controles {
+  position: fixed;
+  z-index: 7;
+  left: 50%;
+  bottom: clamp(14px, 2.5vh, 30px);
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: max-content;
+  max-width: 94vw;
+}
+
+.ascii-btn {
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: transparent;
+  color: #d9efd8;
+  border: 1px solid rgba(141, 199, 137, 0.75);
+  border-radius: 999px;
+  backdrop-filter: blur(5px);
+  text-shadow: 0 0 7px rgba(187, 231, 177, 0.45);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ascii-btn:hover {
+  background: rgba(110, 168, 110, 0.28);
+}
+
+.ascii-btn:focus-visible { outline: 2px solid #ffe5a5; outline-offset: -4px; }
+
+.ascii-pista {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+  .ascii-ramo { transform: scale(.72); }
+  .polaroid {
+    width: clamp(85px, 11.5vw, 110px);
+    gap: 3px;
+    padding: 6px 6px 7px;
+  }
+  .polaroid--izquierda-superior { top: 2%; left: clamp(8px, calc(24vw - 145px), 72px); }
+  .polaroid--izquierda-inferior { top: 55%; left: clamp(14px, calc(24vw - 137px), 80px); }
+  .polaroid--derecha-superior { top: 2%; right: clamp(8px, calc(24vw - 145px), 72px); }
+  .polaroid--derecha-inferior { top: 55%; right: clamp(14px, calc(24vw - 137px), 80px); }
+  .polaroid--izquierda-superior { width: 110px; aspect-ratio: .6; }
+}
+
+@media (max-width: 600px) {
+  .ascii-ramo { transform: scale(.75); }
+  .polaroid { width: clamp(62px, 16vw, 80px); gap: 2px; padding: 5px 5px 6px; }
+  .polaroid--izquierda-superior { top: 2%; left: 2vw; }
+  .polaroid--izquierda-inferior { top: 53%; left: 2vw; }
+  .polaroid--derecha-superior { top: 2%; right: 2vw; }
+  .polaroid--derecha-inferior { top: 53%; right: 2vw; }
+  .ascii-dedicatoria { bottom: clamp(110px, 15vh, 142px); font-size: clamp(24px, 6vw, 34px); }
+  .ascii-controles { gap: 8px; }
+  .ascii-btn { padding: 7px 12px; font-size: .85rem; }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .ascii-ramo { transform: scale(1.3); }
+  .polaroid {
+    width: 130px;
+    aspect-ratio: .78;
+  }
+  .ascii-dedicatoria {
+    right: 6px;
+    left: 6px;
+    font-size: clamp(16px, 4.6vw, 25px);
+  }
+  .polaroid--izquierda-superior { top: 2%; left: 12px; }
+  .polaroid--derecha-superior { top: 2%; right: 12px; }
+  .polaroid--izquierda-inferior { top: 54%; left: 14px; }
+  .polaroid--derecha-inferior { top: 54%; right: 14px; }
+  .polaroid--izquierda-superior { width: 110px; aspect-ratio: .6; }
+}
+
+@media (max-width: 768px) and (orientation: portrait) and (max-height: 700px) {
+  .polaroid--izquierda-inferior,
+  .polaroid--derecha-inferior { top: 46%; }
+}
+

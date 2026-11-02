@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <title>Flores para ti 🌹</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-ascii">
+
+  <canvas id="ramo" class="ascii-ramo" aria-hidden="true"></canvas>
+
+  <section class="polaroids" aria-label="Fotos de nuestros recuerdos">
+    <figure class="polaroid polaroid--izquierda-superior" aria-label="Marco Polaroid superior izquierdo">
+      <span class="polaroid-foto"><img class="polaroid-imagen-uno" src="assets/images/Imagen1.jpeg" alt="Foto 1 del collage"></span>
+    </figure>
+    <figure class="polaroid polaroid--izquierda-inferior" aria-label="Marco Polaroid inferior izquierdo">
+      <span class="polaroid-foto"><img src="assets/images/imagen3.jpeg" alt="Foto 3 del collage"></span>
+    </figure>
+    <figure class="polaroid polaroid--derecha-superior" aria-label="Marco Polaroid superior derecho">
+      <span class="polaroid-foto"><img src="assets/images/imagen2.jpeg" alt="Foto 2 del collage"></span>
+    </figure>
+    <figure class="polaroid polaroid--derecha-inferior" aria-label="Marco Polaroid inferior derecho">
+      <span class="polaroid-foto"><img src="assets/images/imagen4.jpeg" alt="Foto 4 del collage"></span>
+    </figure>
+  </section>
+
+  <p class="ascii-dedicatoria">Te hize un pequeño jardin, no se marchitará<br>
+    Que cada pétalo te recuerde lo mucho que te amo<br>
+    Feliz segundo mes, amor 💘
+  </p>
+
+  <div class="ascii-controles">
+    <button id="btn-florecer" class="ascii-btn">Florecer</button>
+    <button id="btn-musica" class="ascii-btn">Música</button>
+  </div>
+
+
+  <audio id="bg-music" loop preload="auto">
+    <source src="assets/audio/cancion.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="fondo-music" preload="metadata">
+    <source src="assets/audio/fondo.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="js/flores.js"></script>
+</body>
+</html>
