@@ -610,11 +610,35 @@ function recuperarTiempo() {
   if (guardado) musica.currentTime = parseFloat(guardado);
 }
 
+let cancionIniciada = false;
+let secuenciaMusicalActiva = false;
+const cancionesAleatorias = [
+  "assets/audio/cancion_bailar.mp3",
+  "assets/audio/cancion_domingo7.mp3",
+  "assets/audio/cancion_estanoche.mp3",
+  "assets/audio/cancion_whyme.mp3",
+];
+
+function revisarTiempoFondo() {
+  if (cancionIniciada || musicaFondo.currentTime < 7) return;
+  cancionIniciada = true;
+  musicaFondo.removeEventListener("timeupdate", revisarTiempoFondo);
+  musica.currentTime = 0;
+  musica.volume = .6;
+  musica.play().catch(() => console.warn("No se pudo reproducir la canción elegida."));
+}
+
 function alternarMusica() {
   if (!musica.paused || !musicaFondo.paused) {
-    musicaFondo.removeEventListener("ended", continuarConCancion);
     musica.pause();
     musicaFondo.pause();
+  } else if (secuenciaMusicalActiva) {
+    if (cancionIniciada && !musica.ended) {
+      musica.play().catch(() => console.warn("No se pudo reanudar cancion.mp3."));
+    }
+    if (!musicaFondo.ended) {
+      musicaFondo.play().catch(() => console.warn("No se pudo reanudar fondo.mp3."));
+    }
   } else {
     musica.volume = .6;
     musica.play().catch(() => console.warn("El navegador bloqueó la música."));
@@ -622,19 +646,18 @@ function alternarMusica() {
   actualizarMusica();
 }
 
-function continuarConCancion() {
-  musica.currentTime = 0;
-  musica.volume = .6;
-  musica.play().catch(() => console.warn("No se pudo reproducir cancion.mp3."));
-}
-
 function iniciarSecuenciaMusical() {
-  musicaFondo.removeEventListener("ended", continuarConCancion);
+  cancionIniciada = false;
+  secuenciaMusicalActiva = true;
+  musicaFondo.removeEventListener("timeupdate", revisarTiempoFondo);
   musica.pause();
   musicaFondo.pause();
   musicaFondo.currentTime = 0;
   musicaFondo.volume = .15;
-  musicaFondo.addEventListener("ended", continuarConCancion, { once: true });
+  const indiceAleatorio = Math.floor(Math.random() * cancionesAleatorias.length);
+  musica.src = cancionesAleatorias[indiceAleatorio];
+  musica.load();
+  musicaFondo.addEventListener("timeupdate", revisarTiempoFondo);
   musicaFondo.play().catch(() => console.warn("No se pudo reproducir fondo.mp3."));
 }
 
@@ -657,7 +680,7 @@ botonMusica.addEventListener("click", alternarMusica);
 formClave.addEventListener("submit", (evento) => {
   evento.preventDefault();
   if (inputClave.value.trim().toLowerCase() !== CLAVE_SECRETA.toLowerCase()) {
-    errorClave.textContent = "Ups, esa no es la clave secreta 🙈";
+    errorClave.textContent = "pobre de ti que no te acuerdes >:'c";
     errorClave.hidden = false;
     inputClave.setAttribute("aria-invalid", "true");
     formClave.classList.remove("gatekeeper-tarjeta--error");
