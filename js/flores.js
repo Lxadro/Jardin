@@ -617,6 +617,7 @@ const cancionesAleatorias = [
   "assets/audio/cancion_domingo7.mp3",
   "assets/audio/cancion_estanoche.mp3",
   "assets/audio/cancion_whyme.mp3",
+  "assets/audio/cancion_ternura.mp3",
 ];
 
 function revisarTiempoFondo() {
