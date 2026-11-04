@@ -469,6 +469,11 @@ body {
   font: 16px/1.5 Georgia, "Times New Roman", serif;
 }
 
+.gatekeeper-tarjeta > .gatekeeper-aviso {
+  margin-top: -13px;
+  font-size: 13px;
+}
+
 .gatekeeper-tarjeta label {
   margin-bottom: 7px;
   color: var(--texto);

@@ -1,0 +1,2 @@
+[functions.registrar-intento]
+verify_jwt = true

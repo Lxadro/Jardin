@@ -1,7 +1,5 @@
 ﻿/* Motor 3D ASCII propio: mallas paramétricas, perspectiva, z-buffer y luz por normales. */
 
-// Personaliza esta clave con la fecha o palabra secreta que quieras usar.
-const CLAVE_SECRETA = "06/09/2026";
 const gatekeeper = document.getElementById("gatekeeper");
 const formClave = document.getElementById("form-clave");
 const inputClave = document.getElementById("clave-secreta");
@@ -678,21 +676,64 @@ window.addEventListener("resize", resize);
 botonFlorecer.addEventListener("click", () => { iniciarSecuenciaMusical(); florecer(); });
 botonMusica.addEventListener("click", alternarMusica);
 
-formClave.addEventListener("submit", (evento) => {
+async function registrarIntento(respuesta) {
+  const configuracion = window.SUPABASE_CONFIG;
+  if (!configuracion?.url || !configuracion?.anonKey) {
+    throw new Error("Falta configurar la conexión con Supabase.");
+  }
+
+  const baseUrl = configuracion.url.replace(/\/$/, "");
+  const response = await fetch(`${baseUrl}/functions/v1/registrar-intento`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: configuracion.anonKey,
+      Authorization: `Bearer ${configuracion.anonKey}`,
+    },
+    body: JSON.stringify({ respuesta }),
+  });
+
+  if (!response.ok) throw new Error("Supabase no pudo guardar el intento.");
+  return response.json();
+}
+
+function mostrarErrorClave(mensaje) {
+  errorClave.textContent = mensaje;
+  errorClave.hidden = false;
+  inputClave.setAttribute("aria-invalid", "true");
+  formClave.classList.remove("gatekeeper-tarjeta--error");
+  void formClave.offsetWidth;
+  formClave.classList.add("gatekeeper-tarjeta--error");
+  inputClave.select();
+}
+
+formClave.addEventListener("submit", async (evento) => {
   evento.preventDefault();
-  if (inputClave.value.trim().toLowerCase() !== CLAVE_SECRETA.toLowerCase()) {
-    errorClave.textContent = "pobre de ti que no te acuerdes >:'c";
-    errorClave.hidden = false;
-    inputClave.setAttribute("aria-invalid", "true");
-    formClave.classList.remove("gatekeeper-tarjeta--error");
-    void formClave.offsetWidth;
-    formClave.classList.add("gatekeeper-tarjeta--error");
-    inputClave.select();
+  const botonEnviar = formClave.querySelector("button[type=submit]");
+  const respuesta = inputClave.value;
+  botonEnviar.disabled = true;
+  formClave.setAttribute("aria-busy", "true");
+
+  let resultado;
+  try {
+    resultado = await registrarIntento(respuesta);
+  } catch (error) {
+    console.error(error);
+    mostrarErrorClave("No se pudo guardar tu intento. Revisa tu conexión e inténtalo de nuevo.");
+    botonEnviar.disabled = false;
+    formClave.removeAttribute("aria-busy");
     return;
   }
 
   errorClave.hidden = true;
   inputClave.removeAttribute("aria-invalid");
+  if (!resultado.acertado) {
+    mostrarErrorClave("pobre de ti que no te acuerdes >:'c");
+    botonEnviar.disabled = false;
+    formClave.removeAttribute("aria-busy");
+    return;
+  }
+
   gatekeeper.classList.add("gatekeeper--salir");
   let finalizado = false;
   const finalizarDesbloqueo = () => {
